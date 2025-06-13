@@ -22,9 +22,11 @@
     const map = L.map('map').setView([-41.2865, 174.7762], 6);; // Centered on globe
 
     // Base map (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+   L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© CartoDB, OpenStreetMap',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
 
     // Cloud overlay from OpenWeatherMap
     const clouds = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9', {
