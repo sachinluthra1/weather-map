@@ -623,7 +623,16 @@ document.addEventListener("DOMContentLoaded", function () {
 }).bindPopup("<b>" + loc.name + "</b>").addTo(locationLayer);
   });
 
-  // Add user location if allowed
+  var boundaryLayer = new L.GeoJSON.AJAX("https://raw.githubusercontent.com/sachinluthra1/nz-power-regions/refs/heads/main/regions.geojson", {
+        style: {
+          color: "#3388ff",
+          weight: 2,
+          opacity: 1
+        }
+      });
+
+      // Add Regional Boundaries Layer
+      boundaryLayer.addTo(map);
   
  locationLayer.addTo(map);
   // Add layer controls
@@ -632,6 +641,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Wind": windLayer,
     "Storms": stormLayer,
     "Locations": locationLayer
+    "Regional Boundaries": boundaryLayer
   };
 
   L.control.layers(null, overlayMaps).addTo(map);
