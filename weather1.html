@@ -617,9 +617,9 @@ document.addEventListener("DOMContentLoaded", function () {
   locations.forEach(function(loc) {
     var marker = L.circleMarker(loc.coords, {
   radius: 6,           // Size of the circle
-  color: "#0078FF",    // Outline color
-  fillColor: "#3399FF",// Fill color
-  fillOpacity: 0.8     // Fill transparency
+  color: "#006400",       // Dark green border
+  fillColor: "#32CD32",   // Lime green fill
+  fillOpacity: 0.8
 }).bindPopup("<b>" + loc.name + "</b>").addTo(locationLayer);
   });
 locationLayer.addTo(map);
