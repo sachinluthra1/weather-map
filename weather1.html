@@ -683,18 +683,18 @@ var nzRegionsGeoJSON = {
         layer.bindPopup(feature.properties.Region);
       }
     }
-  }).addTo(map);
+  });
  
   // Add layer controls
   var overlayMaps = {
+    "Locations": locationLayer,
     "Clouds": cloudLayer,
     "Wind": windLayer,
     "Storms": stormLayer,
-    "Locations": locationLayer,
-   "Regional Boundaries": boundaryLayer
+     "Power Companies": boundaryLayer
   };
 
-  L.control.layers(null, overlayMaps).addTo(map);
+  L.control.layers(null, overlayMaps,{ position: 'bottomright' }).addTo(map);
 });
 </script>
 </body>
