@@ -615,8 +615,12 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   locations.forEach(function(loc) {
-    var marker = L.marker(loc.coords).bindPopup("<b>" + loc.name + "</b>");
-    locationLayer.addLayer(marker);
+    var marker = L.circleMarker(loc.coords, {
+  radius: 6,           // Size of the circle
+  color: "#0078FF",    // Outline color
+  fillColor: "#3399FF",// Fill color
+  fillOpacity: 0.8     // Fill transparency
+}).bindPopup("<b>" + loc.name + "</b>").addTo(locationLayer);
   });
 
   // Add user location if allowed
