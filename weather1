@@ -14,7 +14,7 @@
   }).addTo(map);
 
   // Weather Layers
-  var apiKey = "YOUR_API_KEY"; // OpenWeatherMap API key
+  var apiKey = "f9d4cad787035c2216c2c685870522f9"; // OpenWeatherMap API key
 
   var cloudLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${apiKey}`, {
     opacity: 0.5
