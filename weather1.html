@@ -4,7 +4,6 @@
   <title>Cloud Overlay Map</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     html, body, #map {
@@ -16,52 +15,43 @@
 </head>
 <body>
 <div id="map" style="width: 100%; height: 500px;"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  integrity="sha256-XQoYMqMTK8Lvdl/Ea0kYk7zY3kCjvTnGZ7XtZfF3rHU="
-  crossorigin=""></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-  // Create map
-  var map = L.map('map').setView([37.7749, -122.4194], 5); // Default view: San Francisco
+document.addEventListener("DOMContentLoaded", function () {
+  var map = L.map('map').setView([37.7749, -122.4194], 5); // San Francisco
 
-  // Base Layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
   }).addTo(map);
 
-  // Weather Layers
-  var apiKey = "f9d4cad787035c2216c2c685870522f9"; // OpenWeatherMap API key
+  var apiKey = "f9d4cad787035c2216c2c685870522f9";
 
-  var cloudLayer = L.tileLayer(`https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=${apiKey}`, {
+  var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey, {
     opacity: 0.5
   });
 
-  var windLayer = L.tileLayer(`https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=${apiKey}`, {
+  var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey, {
     opacity: 0.5
   });
 
-  // Add Weather Layers Control
   var overlayMaps = {
     "Clouds": cloudLayer,
     "Wind": windLayer
   };
   L.control.layers(null, overlayMaps).addTo(map);
 
-  // Add Location Markers (example data)
   var locations = [
     { name: "New York", coords: [40.7128, -74.0060] },
     { name: "London", coords: [51.5074, -0.1278] },
     { name: "Tokyo", coords: [35.6895, 139.6917] }
   ];
 
-  locations.forEach(loc => {
-    L.marker(loc.coords).addTo(map)
-     .bindPopup(`<b>${loc.name}</b>`)
-     .openPopup();
+  locations.forEach(function(loc) {
+    L.marker(loc.coords).addTo(map).bindPopup("<b>" + loc.name + "</b>");
   });
 
-  // Optionally: Add user location (browser-based)
+  // Optional: user location
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var latlng = [position.coords.latitude, position.coords.longitude];
@@ -69,6 +59,7 @@
       map.setView(latlng, 6);
     });
   }
+});
 </script>
 </body>
 </html>
