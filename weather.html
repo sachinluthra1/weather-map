@@ -27,12 +27,18 @@
     }).addTo(map);
 
     // Cloud overlay from OpenWeatherMap
-    const clouds = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9', {
-      opacity: 1.0,
-      attribution: 'Weather data © OpenWeatherMap'
-    });
+    
+    var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9');
+ 
 
-    clouds.addTo(map);
+  var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9');
+
+  var overlayMaps = {
+    "Clouds": cloudLayer,
+    "Wind": windLayer
+  };
+
+  L.control.layers(null, overlayMaps).addTo(map);
   </script>
 </body>
 </html>
