@@ -39,17 +39,21 @@
     // Marker layer group
     var locationLayer = L.layerGroup().addTo(map);
 
-    // Fetch CSV from SharePoint and add markers
-    fetch('https://yourcompany.sharepoint.com/sites/sitename/Shared%20Documents/locations.csv') // replace with actual link
-      .then(response => response.text())
-      .then(csvText => {
-        const rows = csvText.trim().split('\n').slice(1); // skip header
-        rows.forEach(row => {
-          const [name, lat, lng] = row.split(',');
-          const marker = L.marker([parseFloat(lat), parseFloat(lng)])
-            .bindPopup(name);
-          locationLayer.addLayer(marker);
-        });
+    fetch('https://rcgnz.sharepoint.com/Sites/designdocs/RF%20Optimisation/Automation/test/test2.xlsx')
+  .then(response => response.arrayBuffer())
+  .then(data => {
+    const workbook = XLSX.read(data, { type: 'array' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const json = XLSX.utils.sheet_to_json(sheet);
+    
+    json.forEach(location => {
+      const marker = L.marker([location.Latitude, location.Longitude])
+        .bindPopup(location.Name);
+      locationLayer.addLayer(marker);
+    });
+  
+ 
       });
   </script>
 </body>
