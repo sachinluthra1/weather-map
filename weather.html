@@ -19,26 +19,38 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([-41.2865, 174.7762], 6);; // Centered on globe
+    const map = L.map('map').setView([-41.2865, 174.7762], 6); // New Zealand center
 
-    // Base map (OpenStreetMap)
-   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Base map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Cloud overlay from OpenWeatherMap
-    
+    // OpenWeatherMap overlays
     var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9');
- 
+    var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9');
 
-  var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=f9d4cad787035c2216c2c685870522f9');
+    var overlayMaps = {
+      "Clouds": cloudLayer,
+      "Wind": windLayer
+    };
+    L.control.layers(null, overlayMaps).addTo(map);
 
-  var overlayMaps = {
-    "Clouds": cloudLayer,
-    "Wind": windLayer
-  };
+    // Marker layer group
+    var locationLayer = L.layerGroup().addTo(map);
 
-  L.control.layers(null, overlayMaps).addTo(map);
+    // Fetch CSV from SharePoint and add markers
+    fetch('https://yourcompany.sharepoint.com/sites/sitename/Shared%20Documents/locations.csv') // replace with actual link
+      .then(response => response.text())
+      .then(csvText => {
+        const rows = csvText.trim().split('\n').slice(1); // skip header
+        rows.forEach(row => {
+          const [name, lat, lng] = row.split(',');
+          const marker = L.marker([parseFloat(lat), parseFloat(lng)])
+            .bindPopup(name);
+          locationLayer.addLayer(marker);
+        });
+      });
   </script>
 </body>
 </html>
