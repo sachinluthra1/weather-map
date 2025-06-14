@@ -56,13 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Add user location if allowed
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var latlng = [position.coords.latitude, position.coords.longitude];
-      var userMarker = L.marker(latlng).bindPopup("You are here");
-      locationLayer.addLayer(userMarker);
-    });
-  }
+  
  locationLayer.addTo(map);
   // Add layer controls
   var overlayMaps = {
