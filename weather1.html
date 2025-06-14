@@ -34,11 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Weather layers
   var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-    opacity: 0.6
+    opacity: 0.9
   });
 
   var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-    opacity: 0.6
+    opacity: 0.9
+  });
+
+   var stormLayer = L.tileLayer('https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=' + apiKey, {
+    opacity: 0.9
   });
 
   // Toggleable layer group for locations
@@ -622,6 +626,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var overlayMaps = {
     "Clouds": cloudLayer,
     "Wind": windLayer,
+    "Storms": stormLayer,
     "Locations": locationLayer
   };
 
