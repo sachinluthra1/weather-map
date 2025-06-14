@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cloud Overlay Map</title>
+  <title>Leaflet Map with Toggleable Weather and Location Layers</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     html, body, #map {
@@ -15,31 +16,31 @@
 </head>
 <body>
 <div id="map" style="width: 100%; height: 500px;"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  var map = L.map('map').setView([37.7749, -122.4194], 5); // San Francisco
+  var map = L.map('map').setView([37.7749, -122.4194], 4); // Default to San Francisco
 
+  // Base map layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
   }).addTo(map);
 
+  // API Key for OpenWeatherMap
   var apiKey = "f9d4cad787035c2216c2c685870522f9";
 
-  var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-    opacity: 0.5
-  });
-
+  // Weather layers
   var windLayer = L.tileLayer('https://tile.openweathermap.org/map/wind_new/{z}/{x}/{y}.png?appid=' + apiKey, {
-    opacity: 0.5
+    opacity: 0.6
   });
 
-  var overlayMaps = {
-    "Clouds": cloudLayer,
-    "Wind": windLayer
-  };
-  L.control.layers(null, overlayMaps).addTo(map);
+  var cloudLayer = L.tileLayer('https://tile.openweathermap.org/map/clouds_new/{z}/{x}/{y}.png?appid=' + apiKey, {
+    opacity: 0.6
+  });
+
+  // Toggleable layer group for locations
+  var locationLayer = L.layerGroup();
 
   var locations = [
     { name: "New York", coords: [40.7128, -74.0060] },
@@ -48,17 +49,27 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   locations.forEach(function(loc) {
-    L.marker(loc.coords).addTo(map).bindPopup("<b>" + loc.name + "</b>");
+    var marker = L.marker(loc.coords).bindPopup("<b>" + loc.name + "</b>");
+    locationLayer.addLayer(marker);
   });
 
-  // Optional: user location
+  // Add user location if allowed
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var latlng = [position.coords.latitude, position.coords.longitude];
-      L.marker(latlng).addTo(map).bindPopup("You are here").openPopup();
-      map.setView(latlng, 6);
+      var userMarker = L.marker(latlng).bindPopup("You are here");
+      locationLayer.addLayer(userMarker);
     });
   }
+
+  // Add layer controls
+  var overlayMaps = {
+    "Clouds": cloudLayer,
+    "Wind": windLayer,
+    "Locations": locationLayer
+  };
+
+  L.control.layers(null, overlayMaps).addTo(map);
 });
 </script>
 </body>
