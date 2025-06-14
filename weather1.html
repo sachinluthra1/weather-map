@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
       locationLayer.addLayer(userMarker);
     });
   }
-
+ locationLayer.addTo(map);
   // Add layer controls
   var overlayMaps = {
     "Clouds": cloudLayer,
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Locations": locationLayer
   };
 
-  L.control.layers("Locations", overlayMaps).addTo(map);
+  L.control.layers(null, overlayMaps).addTo(map);
 });
 </script>
 </body>
