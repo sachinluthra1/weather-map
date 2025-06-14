@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Locations": locationLayer
   };
 
-  L.control.layers(null, overlayMaps).addTo(map);
+  L.control.layers(locationLayer, overlayMaps).addTo(map);
 });
 </script>
 </body>
