@@ -624,16 +624,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 locationLayer.addTo(map);
   
-  //var boundaryLayer = new L.GeoJSON.AJAX("https://raw.githubusercontent.com/sachinluthra1/nz-power-regions/refs/heads/main/regions.geojson", {
-       // style: {
-       //   color: "#3388ff",
-       //   weight: 2,
-       //   opacity: 1
-     //   }
-    //  });
+  var boundaryLayer = new L.GeoJSON.AJAX("https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/sachinluthra1/nz-power-regions/refs/heads/main/regions.geojson", {
+        style: {
+         color: "#3388ff",
+         weight: 2,
+         opacity: 1
+      }
+     });
 
       // Add Regional Boundaries Layer
-    //  boundaryLayer.addTo(map);
+     boundaryLayer.addTo(map);
   
  
   // Add layer controls
@@ -641,8 +641,8 @@ locationLayer.addTo(map);
     "Clouds": cloudLayer,
     "Wind": windLayer,
     "Storms": stormLayer,
-    "Locations": locationLayer
-   // "Regional Boundaries": boundaryLayer
+    "Locations": locationLayer,
+   "Regional Boundaries": boundaryLayer
   };
 
   L.control.layers(null, overlayMaps).addTo(map);
