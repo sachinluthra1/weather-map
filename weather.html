@@ -17,7 +17,12 @@
 <body>
   <div id="map"></div>
 
+  <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- SheetJS for reading Excel files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
   <script>
     const map = L.map('map').setView([-41.2865, 174.7762], 6); // New Zealand center
 
@@ -39,21 +44,26 @@
     // Marker layer group
     var locationLayer = L.layerGroup().addTo(map);
 
+    // Load Excel data from SharePoint
     fetch('https://rcgnz.sharepoint.com/Sites/designdocs/RF%20Optimisation/Automation/test/test2.xlsx')
-  .then(response => response.arrayBuffer())
-  .then(data => {
-    const workbook = XLSX.read(data, { type: 'array' });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const json = XLSX.utils.sheet_to_json(sheet);
-    
-    json.forEach(location => {
-      const marker = L.marker([location.Latitude, location.Longitude])
-        .bindPopup(location.Name);
-      locationLayer.addLayer(marker);
-    });
-  
- 
+      .then(response => response.arrayBuffer())
+      .then(data => {
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const json = XLSX.utils.sheet_to_json(sheet);
+
+        json.forEach(location => {
+          // Make sure the sheet has "Latitude", "Longitude", "Name" columns
+          if (location.Latitude && location.Longitude && location.Name) {
+            const marker = L.marker([location.Latitude, location.Longitude])
+              .bindPopup(location.Name);
+            locationLayer.addLayer(marker);
+          }
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load Excel data:', err);
       });
   </script>
 </body>
